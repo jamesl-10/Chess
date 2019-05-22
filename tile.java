@@ -5,6 +5,7 @@ public class tile extends JButton
 	// Change variables into preferably private
     private int xPosition;
     private int yPosition;
+    private piece p;
     
     // Constructor
     public tile(int xPosition, int yPosition)
@@ -25,11 +26,21 @@ public class tile extends JButton
     	return yPosition;
     }
     
-    public static void checkTile(String s, int x, int y)
+    public void addPiece(piece p)
     {
-        if(!s.equals(""))
+    	this.p = p;
+    	this.setText(p.name());
+    }
+    public piece getPiece()
+    {
+    	return p;
+    }
+    
+    public static void checkTile(piece p, int x, int y)
+    {
+        if(!p.name().equals(""))
         {
-        	pieceMover.move(s, x, y);
+        	p.move(x, y);
         }
     }
 }
