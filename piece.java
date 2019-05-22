@@ -11,7 +11,6 @@ class piece
 	{
 		return pieceName;
 	}
-
 }
 
 class pawn extends piece
@@ -23,9 +22,9 @@ class pawn extends piece
 		super(pieceName);
 		// TODO Auto-generated constructor stub
 	}
-	public static void move()
+	public static void move(int x, int y)
 	{
-		
+		board[x-1][y].setText("\u2654");
 	}
 	
 }
