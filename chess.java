@@ -27,7 +27,7 @@ public class chess extends JFrame implements ActionListener
 	{
 		
 		// Creates a panel for the board
-	    JPanel board = new JPanel();
+	    board board = new board();
 	    
 	    // Makes an 8 x 8 grid
 	    board.setLayout(new GridLayout(8, 8));
@@ -77,7 +77,7 @@ public class chess extends JFrame implements ActionListener
 				    {
 				    	int x = tile.getXPos();
 				        int y = tile.getYPos();
-				        tile.checkTile(((tile) e.getSource()).getText(), tile.getXPos(), tile.getYPos());
+				        tile.checkTile(((tile) e.getSource()).getPiece(), tile.getXPos(), tile.getYPos());
 				    }
 
 					@Override
@@ -117,7 +117,6 @@ public class chess extends JFrame implements ActionListener
 		
 	    
 	    /*
-
 	    "\u2654 " + // white king
         "\u2655 " + // white queen
         "\u2656 " + // white rook
@@ -211,40 +210,40 @@ public class chess extends JFrame implements ActionListener
 	     */
 	    
 	    // Places white pieces in position
-	    tiles[6][0].setText(wp1.name());
-	    tiles[6][1].setText(wp2.name());
-	    tiles[6][2].setText(wp3.name());
-	    tiles[6][3].setText(wp4.name());
-	    tiles[6][4].setText(wp5.name());
-	    tiles[6][5].setText(wp6.name());
-	    tiles[6][6].setText(wp7.name());
-	    tiles[6][7].setText(wp8.name());
-	    tiles[7][0].setText(wr1.name());
-	    tiles[7][1].setText(wn1.name());
-	    tiles[7][2].setText(wb1.name());
-	    tiles[7][3].setText(wq.name());
-	    tiles[7][4].setText(wk.name());
-	    tiles[7][5].setText(wn2.name());
-	    tiles[7][6].setText(wb2.name());
-	    tiles[7][7].setText(wr2.name());
+	    tiles[6][0].addPiece(wp1);
+	    tiles[6][1].addPiece(wp2);
+	    tiles[6][2].addPiece(wp3);
+	    tiles[6][3].addPiece(wp4);
+	    tiles[6][4].addPiece(wp5);
+	    tiles[6][5].addPiece(wp6);
+	    tiles[6][6].addPiece(wp7);
+	    tiles[6][7].addPiece(wp8);
+	    tiles[7][0].addPiece(wr1);
+	    tiles[7][1].addPiece(wn1);
+	    tiles[7][2].addPiece(wb1);
+	    tiles[7][3].addPiece(wq);
+	    tiles[7][4].addPiece(wk);
+	    tiles[7][5].addPiece(wn2);
+	    tiles[7][6].addPiece(wb2);
+	    tiles[7][7].addPiece(wr2);
 	    
 	    // Places black pieces in position
-	    tiles[1][0].setText(bp1.name());
-	    tiles[1][1].setText(bp2.name());
-	    tiles[1][2].setText(bp3.name());
-	    tiles[1][3].setText(bp4.name());
-	    tiles[1][4].setText(bp5.name());
-	    tiles[1][5].setText(bp6.name());
-	    tiles[1][6].setText(bp7.name());
-	    tiles[1][7].setText(bp8.name());
-	    tiles[0][0].setText(br1.name());
-	    tiles[0][1].setText(bn1.name());
-	    tiles[0][2].setText(bb1.name());
-	    tiles[0][3].setText(bq.name());
-	    tiles[0][4].setText(bk.name());
-	    tiles[0][5].setText(bb2.name());
-	    tiles[0][6].setText(bn2.name());
-	    tiles[0][7].setText(br2.name());
+	    tiles[1][0].addPiece(bp1);
+	    tiles[1][1].addPiece(bp2);
+	    tiles[1][2].addPiece(bp3);
+	    tiles[1][3].addPiece(bp4);
+	    tiles[1][4].addPiece(bp5);
+	    tiles[1][5].addPiece(bp6);
+	    tiles[1][6].addPiece(bp7);
+	    tiles[1][7].addPiece(bp8);
+	    tiles[0][0].addPiece(br1);
+	    tiles[0][1].addPiece(bn1);
+	    tiles[0][2].addPiece(bb1);
+	    tiles[0][3].addPiece(bq);
+	    tiles[0][4].addPiece(bk);
+	    tiles[0][5].addPiece(bb2);
+	    tiles[0][6].addPiece(bn2);
+	    tiles[0][7].addPiece(br2);
 	
 	    // Creates board
 	    add(board);
