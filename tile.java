@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+// Togglebutton?
 public class tile extends JButton
 {
 	// Change variables into preferably private
@@ -31,17 +32,23 @@ public class tile extends JButton
     	this.p = p;
     	this.setText(p.name());
     }
+    
     public piece getPiece()
     {
     	return p;
     }
     
-    public static void checkTile(piece p, int x, int y)
+    public void removePiece()
+    {
+    	this.p = null;
+    	this.setText("");
+    }
+    
+    public void checkTile(piece p, int x, int y)
     {
         if(!p.name().equals(""))
         {
-        	p.move(x, y);
+        	player.isValidMove(p, x, y);
         }
     }
 }
-
