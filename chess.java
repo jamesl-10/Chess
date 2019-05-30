@@ -24,8 +24,7 @@ public class chess extends JFrame implements ActionListener
 
 	// Chess board class constructor
 	public chess() 
-	{
-		
+	{	
 		// Creates a panel for the board
 	    board board = new board();
 	    
@@ -71,21 +70,18 @@ public class chess extends JFrame implements ActionListener
 				
 				tiles[i][j] = tile;
 				
-				tiles[i][j].addMouseListener(new MouseListener() {
+				tiles[i][j].addMouseListener(new MouseListener()
+				{				
 				    @Override
 				    public void mouseClicked(MouseEvent e)
 				    {
-				    	int x = tile.getXPos();
-				        int y = tile.getYPos();
-				        tile.checkTile(((tile) e.getSource()).getPiece(), tile.getXPos(), tile.getYPos());
+				    	// TODO Auto-generated method stub 
 				    }
 
 					@Override
 					public void mouseEntered(MouseEvent e)
 					{
 						// TODO Auto-generated method stub
-//						tile.getText() = 
-						
 					}
 
 					@Override
@@ -99,6 +95,18 @@ public class chess extends JFrame implements ActionListener
 					public void mousePressed(MouseEvent e)
 					{
 						// TODO Auto-generated method stub
+						
+						if (tile.getPiece() != null)
+						{
+							resetBoard(tiles);
+							tile.checkTile(((tile) e.getSource()).getPiece(), tile.getXPos(), tile.getYPos());
+							player.setCurrentPiece(((tile) e.getSource()).getPiece());
+						}
+						else if (tile.getText().equals("\u25E6"))
+						{
+							player.movePiece(tile.getXPos(), tile.getYPos());
+							resetBoard(tiles);
+						}
 						
 					}
 
@@ -146,22 +154,22 @@ public class chess extends JFrame implements ActionListener
 	    piece wp8 = new pawn("\u2659");
 	    
 	    // White king
-	    piece wk = new piece("\u2654");
+	    piece wk = new king("\u2654");
 	    
 	    // White queen
-	    piece wq = new piece("\u2655");
+	    piece wq = new queen("\u2655");
 	    
 	    // White knights
-	    piece wn1 = new piece("\u2658");
-	    piece wn2 = new piece("\u2657");
+	    piece wn1 = new knight("\u2658");
+	    piece wn2 = new knight("\u2658");
 	    
 	    // White bishops
-	    piece wb1 = new piece("\u2657");
-	    piece wb2 = new piece("\u2658");
+	    piece wb1 = new bishop("\u2657");
+	    piece wb2 = new bishop("\u2657");
 	    
 	    // White rooks
-	    piece wr1 = new piece("\u2656");
-	    piece wr2 = new piece("\u2656");
+	    piece wr1 = new rook("\u2656");
+	    piece wr2 = new rook("\u2656");
 	    
 	    // Black pieces
 	    // Black pawns
@@ -175,22 +183,22 @@ public class chess extends JFrame implements ActionListener
 	    piece bp8 = new pawn("\u265F");
 	    
 	    // Black king
-	    piece bk = new piece("\u265A");
+	    piece bk = new king("\u265A");
 	    
 	    // Black queen
-	    piece bq = new piece("\u265B");
+	    piece bq = new queen("\u265B");
 	    
 	    // Black knights
-	    piece bn1 = new piece("\u265E");
-	    piece bn2 = new piece("\u265E");
+	    piece bn1 = new knight("\u265E");
+	    piece bn2 = new knight("\u265E");
 	    
 	    // Black bishops
-	    piece bb1 = new piece("\u265D");
-	    piece bb2 = new piece("\u265D");
+	    piece bb1 = new bishop("\u265D");
+	    piece bb2 = new bishop("\u265D");
 	    
 	    // Black rooks
-	    piece br1 = new piece("\u265C");
-	    piece br2 = new piece("\u265C");
+	    piece br1 = new rook("\u265C");
+	    piece br2 = new rook("\u265C");
 
 	    
 	    
@@ -223,8 +231,8 @@ public class chess extends JFrame implements ActionListener
 	    tiles[7][2].addPiece(wb1);
 	    tiles[7][3].addPiece(wq);
 	    tiles[7][4].addPiece(wk);
-	    tiles[7][5].addPiece(wn2);
-	    tiles[7][6].addPiece(wb2);
+	    tiles[7][5].addPiece(wb2);
+	    tiles[7][6].addPiece(wn2);
 	    tiles[7][7].addPiece(wr2);
 	    
 	    // Places black pieces in position
@@ -247,7 +255,7 @@ public class chess extends JFrame implements ActionListener
 	
 	    // Creates board
 	    add(board);
-	    pieceMover mover = new pieceMover(tiles);
+	    player user = new player(tiles);
 	    
 	}
 
@@ -256,5 +264,19 @@ public class chess extends JFrame implements ActionListener
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void resetBoard(tile[][] tiles)
+	{
+		for (int i = 0; i < tiles[0].length; i++)
+		{
+			for (int j = 0; j < tiles.length; j++)
+			{
+				if (tiles[i][j].getText().equals("\u25E6"))
+				{
+					tiles[i][j].setText("");
+				}
+			}
+		}
 	}
 }
