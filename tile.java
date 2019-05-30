@@ -1,6 +1,5 @@
 import javax.swing.*;
 
-// Togglebutton?
 public class tile extends JButton
 {
 	// Change variables into preferably private
@@ -48,6 +47,10 @@ public class tile extends JButton
     {
         if(!p.name().equals(""))
         {
+        	player.isValidMove(p, x, y);
+        }
+    }
+}
         	player.isValidMove(p, x, y);
         }
     }
