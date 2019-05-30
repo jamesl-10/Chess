@@ -42,4 +42,9 @@ public class player
     {
     	currentPiece.move(fromX, fromY, toX, toY, board);
     }
+    
+    public static void capturePiece(int toX, int toY)
+    {
+    	currentPiece.capture(fromX, fromY, toX, toY, board);
+    }
 }
