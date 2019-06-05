@@ -50,17 +50,35 @@ class pawn extends piece
 	{
 		try
 		{
-			board[x-1][y].setText("\u25E6");
-			
-			if (moved == false)
+			if (board[x-1][y].getText().equals(""))
 			{
-				board[x-2][y].setText("\u25E6");
+				board[x-1][y].setText("\u25E6");
+				
+				if (moved == false)
+				{
+					board[x-2][y].setText("\u25E6");
+				}
 			}
 		}
-		catch(Exception e)
+		catch(Exception e) {}
+		
+		try
 		{
-			
+			if (!board[x-1][y+1].getPiece().color().equals(this.color()))
+			{
+				board[x-1][y+1].setBackground(Color.RED);
+			}
 		}
+		catch (Exception e) {}
+		
+		try
+		{
+			if (!board[x-1][y-1].getPiece().color().equals(this.color()))
+			{
+				board[x-1][y-1].setBackground(Color.RED);
+			}
+		}
+		catch (Exception e) {}
 	}
 	
 	public void move(int fromX, int fromY, int x, int y, tile[][] board)
@@ -68,8 +86,30 @@ class pawn extends piece
 		board[fromX][fromY].removePiece();
 		board[x][y].addPiece(this);
 		moved = true;
+		
+		if (x == 0)
+		{
+			board[x][y].removePiece();
+			
+			piece promotedQueen = new queen("\u2655", this.color());
+			board[x][y].addPiece(promotedQueen);
+		}
 	}
 	
+	public void capture(int fromX, int fromY, int x, int y, tile[][] board)
+	{
+		board[fromX][fromY].removePiece();
+		board[x][y].removePiece();
+		board[x][y].addPiece(this);
+		
+		if (x == 0)
+		{
+			board[x][y].removePiece();
+			
+			piece promotedQueen = new queen("\u2655", this.color());
+			board[x][y].addPiece(promotedQueen);
+		}
+	}
 }
 
 class knight extends piece
@@ -100,6 +140,10 @@ class knight extends piece
 			{
 				board[x-2][y+1].setText("\u25E6");
 			}
+			else if(!board[x-2][y+1].getPiece().color().equals(this.color()))
+			{
+				board[x-2][y+1].setBackground(Color.RED);
+			}
 		}
 		catch(Exception e) {}
 		
@@ -108,6 +152,10 @@ class knight extends piece
 			if (board[x+2][y-1].getText().equals(""))
 			{
 				board[x+2][y-1].setText("\u25E6");
+			}
+			else if(!board[x+2][y-1].getPiece().color().equals(this.color()))
+			{
+				board[x+2][y-1].setBackground(Color.RED);
 			}
 		}
 		catch(Exception e) {}
@@ -118,6 +166,10 @@ class knight extends piece
 			{
 				board[x+2][y+1].setText("\u25E6");
 			}
+			else if(!board[x+2][y+1].getPiece().color().equals(this.color()))
+			{
+				board[x+2][y+1].setBackground(Color.RED);
+			}
 		}
 		catch(Exception e) {}
 		
@@ -126,6 +178,10 @@ class knight extends piece
 			if (board[x-1][y-2].getText().equals(""))
 			{
 				board[x-1][y-2].setText("\u25E6");
+			}
+			else if(!board[x-1][y-2].getPiece().color().equals(this.color()))
+			{
+				board[x-1][y-2].setBackground(Color.RED);
 			}
 		}
 		catch(Exception e) {}
@@ -136,6 +192,10 @@ class knight extends piece
 			{
 				board[x-1][y+2].setText("\u25E6");
 			}
+			else if(!board[x-1][y+2].getPiece().color().equals(this.color()))
+			{
+				board[x-1][y+2].setBackground(Color.RED);
+			}
 		}
 		catch(Exception e) {}
 		
@@ -145,6 +205,10 @@ class knight extends piece
 			{
 				board[x+1][y+2].setText("\u25E6");
 			}
+			else if(!board[x+1][y+2].getPiece().color().equals(this.color()))
+			{
+				board[x+1][y+2].setBackground(Color.RED);
+			}
 		}
 		catch(Exception e) {}
 		
@@ -153,6 +217,10 @@ class knight extends piece
 			if (board[x+1][y-2].getText().equals(""))
 			{
 				board[x+1][y-2].setText("\u25E6");
+			}
+			else if(!board[x+1][y-2].getPiece().color().equals(this.color()))
+			{
+				board[x+1][y-2].setBackground(Color.RED);
 			}
 		}
 		catch(Exception e) {}	
@@ -174,9 +242,7 @@ class knight extends piece
 }
 
 class bishop extends piece
-{
-	boolean moved = false;
-	
+{	
 	public bishop(String pieceName, String color)
 	{
 		super(pieceName, color);
@@ -189,25 +255,82 @@ class bishop extends piece
 		{
 			try
 			{
-				board[x-i][y-i].setText("\u25E6");
+				if (board[x-i][y-i].getText().equals(""))
+				{
+					board[x-i][y-i].setText("\u25E6");
+				}
+				else if (!board[x-i][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
 			}
 			catch(Exception e) {}
-			
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x-i][y+i].setText("\u25E6");
+				if (board[x-i][y+i].getText().equals(""))
+				{
+					board[x-i][y+i].setText("\u25E6");
+				}
+				else if (!board[x-i][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			catch(Exception e) {}		
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x+i][y-i].getText().equals(""))
+				{
+					board[x+i][y-i].setText("\u25E6");
+				}
+				else if (!board[x+i][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
 			}
 			catch(Exception e) {}
-			
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x+i][y-i].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x+i][y+i].setText("\u25E6");
+				if (board[x+i][y+i].getText().equals(""))
+				{
+					board[x+i][y+i].setText("\u25E6");
+				}
+				else if (!board[x+i][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
 			}
 			catch(Exception e) {}
 		}		
@@ -216,6 +339,13 @@ class bishop extends piece
 	public void move(int fromX, int fromY, int x, int y, tile[][] board)
 	{
 		board[fromX][fromY].removePiece();
+		board[x][y].addPiece(this);
+	}
+	
+	public void capture(int fromX, int fromY, int x, int y, tile[][] board)
+	{
+		board[fromX][fromY].removePiece();
+		board[x][y].removePiece();
 		board[x][y].addPiece(this);
 	}
 	
@@ -405,12 +535,5 @@ class king extends piece
 	{
 		board[fromX][fromY].removePiece();
 		board[x][y].addPiece(this);
-	}
-	
-	public void move(int fromX, int fromY, int x, int y, tile[][] board)
-	{
-		board[fromX][fromY].removePiece();
-		board[x][y].addPiece(this);
-		moved = true;
 	}
 }
