@@ -48,37 +48,81 @@ class pawn extends piece
 	
 	public void verifyMove(int x, int y, tile[][] board)
 	{
-		try
+		if (this.color().equals("White"))
 		{
-			if (board[x-1][y].getText().equals(""))
+			try
 			{
-				board[x-1][y].setText("\u25E6");
-				
-				if (moved == false)
+				if (board[x-1][y].getText().equals(""))
 				{
-					board[x-2][y].setText("\u25E6");
+					board[x-1][y].setText("\u25E6");
+					
+					if (moved == false)
+					{
+						if (board[x-2][y].getText().equals(""))
+						{
+							board[x-2][y].setText("\u25E6");
+						}
+					}
 				}
 			}
-		}
-		catch(Exception e) {}
-		
-		try
-		{
-			if (!board[x-1][y+1].getPiece().color().equals(this.color()))
+			catch(Exception e) {}
+			
+			try
 			{
-				board[x-1][y+1].setBackground(Color.RED);
+				if (!board[x-1][y+1].getPiece().color().equals(this.color()))
+				{
+					board[x-1][y+1].setBackground(Color.RED);
+				}
 			}
-		}
-		catch (Exception e) {}
-		
-		try
-		{
-			if (!board[x-1][y-1].getPiece().color().equals(this.color()))
+			catch (Exception e) {}
+			
+			try
 			{
-				board[x-1][y-1].setBackground(Color.RED);
+				if (!board[x-1][y-1].getPiece().color().equals(this.color()))
+				{
+					board[x-1][y-1].setBackground(Color.RED);
+				}
 			}
+			catch (Exception e) {}
 		}
-		catch (Exception e) {}
+		
+		else
+		{
+			try
+			{
+				if (board[x+1][y].getText().equals(""))
+				{
+					board[x+1][y].setText("\u25E6");
+					
+					if (moved == false)
+					{
+						if (board[x+2][y].getText().equals(""))
+						{
+							board[x+2][y].setText("\u25E6");
+						}
+					}
+				}
+			}
+			catch(Exception e) {}
+			
+			try
+			{
+				if (!board[x+1][y+1].getPiece().color().equals(this.color()))
+				{
+					board[x+1][y+1].setBackground(Color.RED);
+				}
+			}
+			catch (Exception e) {}
+			
+			try
+			{
+				if (!board[x+1][y-1].getPiece().color().equals(this.color()))
+				{
+					board[x+1][y-1].setBackground(Color.RED);
+				}
+			}
+			catch (Exception e) {}
+		}
 	}
 	
 	public void move(int fromX, int fromY, int x, int y, tile[][] board)
@@ -87,7 +131,7 @@ class pawn extends piece
 		board[x][y].addPiece(this);
 		moved = true;
 		
-		if (x == 0)
+		if (x == 0 || x == 7)
 		{
 			board[x][y].removePiece();
 			
@@ -102,7 +146,7 @@ class pawn extends piece
 		board[x][y].removePiece();
 		board[x][y].addPiece(this);
 		
-		if (x == 0)
+		if (x == 0 || x == 7)
 		{
 			board[x][y].removePiece();
 			
@@ -362,30 +406,92 @@ class rook extends piece
 	}
 	
 	public void verifyMove(int x, int y, tile[][] board)
-	{
+	{	
 		for (int i = 1; i < 8; i++)
 		{
 			try
 			{
-				board[x][y-i].setText("\u25E6");
+				if (board[x][y-i].getText().equals(""))
+				{
+					board[x][y-i].setText("\u25E6");
+				}
+				else if (!board[x][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
+			}
+			catch(Exception e) {}
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x][y+i].getText().equals(""))
+				{
+					board[x][y+i].setText("\u25E6");
+				}
+				else if (!board[x][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
 			
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x][y+i].setText("\u25E6");
+				if (board[x+i][y].getText().equals(""))
+				{
+					board[x+i][y].setText("\u25E6");
+				}
+				else if (!board[x+i][y].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
 			
+		}
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x+i][y].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x-i][y].setText("\u25E6");
+				if (board[x-i][y].getText().equals(""))
+				{
+					board[x-i][y].setText("\u25E6");
+				}
+				else if (!board[x-i][y].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
 		}		
@@ -394,6 +500,13 @@ class rook extends piece
 	public void move(int fromX, int fromY, int x, int y, tile[][] board)
 	{
 		board[fromX][fromY].removePiece();
+		board[x][y].addPiece(this);
+	}
+	
+	public void capture(int fromX, int fromY, int x, int y, tile[][] board)
+	{
+		board[fromX][fromY].removePiece();
+		board[x][y].removePiece();
 		board[x][y].addPiece(this);
 	}
 	
@@ -415,49 +528,170 @@ class queen extends piece
 		{
 			try
 			{
-				board[x-i][y-i].setText("\u25E6");
+				if (board[x-i][y-i].getText().equals(""))
+				{
+					board[x-i][y-i].setText("\u25E6");
+				}
+				else if (!board[x-i][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			catch(Exception e) {}
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x-i][y+i].getText().equals(""))
+				{
+					board[x-i][y+i].setText("\u25E6");
+				}
+				else if (!board[x-i][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			catch(Exception e) {}		
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x+i][y-i].getText().equals(""))
+				{
+					board[x+i][y-i].setText("\u25E6");
+				}
+				else if (!board[x+i][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			catch(Exception e) {}
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x+i][y+i].getText().equals(""))
+				{
+					board[x+i][y+i].setText("\u25E6");
+				}
+				else if (!board[x+i][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			catch(Exception e) {}
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x][y-i].getText().equals(""))
+				{
+					board[x][y-i].setText("\u25E6");
+				}
+				else if (!board[x][y-i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x][y-i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
+			}
+			catch(Exception e) {}
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
+			try
+			{
+				if (board[x][y+i].getText().equals(""))
+				{
+					board[x][y+i].setText("\u25E6");
+				}
+				else if (!board[x][y+i].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x][y+i].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
 			
+		}
+		
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x-i][y+i].setText("\u25E6");
+				if (board[x+i][y].getText().equals(""))
+				{
+					board[x+i][y].setText("\u25E6");
+				}
+				else if (!board[x+i][y].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x+i][y].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
-			
+		}
+		for (int i = 1; i < 8; i++)
+		{
 			try
 			{
-				board[x+i][y-i].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x+i][y+i].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x][y-i].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x][y+i].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x+i][y].setText("\u25E6");
-			}
-			catch(Exception e) {}
-			
-			try
-			{
-				board[x-i][y].setText("\u25E6");
+				if (board[x-i][y].getText().equals(""))
+				{
+					board[x-i][y].setText("\u25E6");
+				}
+				else if (!board[x-i][y].getPiece().color().equals(this.color()) && board[x][y].getBackground() != Color.RED)
+				{
+					board[x-i][y].setBackground(Color.RED);
+					break;
+				}
+				else
+				{
+					break;
+				}
+				
 			}
 			catch(Exception e) {}
 		}		
@@ -466,6 +700,13 @@ class queen extends piece
 	public void move(int fromX, int fromY, int x, int y, tile[][] board)
 	{
 		board[fromX][fromY].removePiece();
+		board[x][y].addPiece(this);
+	}
+	
+	public void capture(int fromX, int fromY, int x, int y, tile[][] board)
+	{
+		board[fromX][fromY].removePiece();
+		board[x][y].removePiece();
 		board[x][y].addPiece(this);
 	}
 	
