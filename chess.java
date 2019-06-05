@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
@@ -9,6 +8,12 @@ import javax.swing.*;
 // Make all panels the same array, instead of two separate for each color
 public class chess extends JFrame implements ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static int turnNumber = 0;
+	
 	public static void main(String[] args) 
 	{	
 	    chess frame = new chess();
@@ -25,7 +30,6 @@ public class chess extends JFrame implements ActionListener
 	{	
 		// Creates a panel for the board
 	    board board = new board();
-	    int turnNumber = 0;
 	    
 	    // Makes an 8 x 8 grid
 	    board.setLayout(new GridLayout(8, 8));
@@ -75,19 +79,24 @@ public class chess extends JFrame implements ActionListener
 						{
 							player.capturePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
+							turnNumber++;
 						}
 						
-						else if (tile.getPiece() != null)
+					else if (tile.getPiece() != null && turnNumber%2 == 0 && 
+							((tile) e.getSource()).getPiece().color().equals("White") || 
+							tile.getPiece() != null &&
+							turnNumber%2 == 1 && ((tile) e.getSource()).getPiece().color().equals("Black"))
 						{
 							resetBoard(tiles);
 							tile.checkTile(((tile) e.getSource()).getPiece(), tile.getXPos(), tile.getYPos());
 							player.setCurrentPiece(((tile) e.getSource()).getPiece());
 						}
 						
-						else if (tile.getText().equals("\u25E6"))
+					else if (tile.getText().equals("\u25E6"))
 						{
 							player.movePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
+							turnNumber++;
 						}					
 					}		
 
