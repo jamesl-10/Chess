@@ -25,6 +25,7 @@ public class chess extends JFrame implements ActionListener
 	{	
 		// Creates a panel for the board
 	    board board = new board();
+	    int turnNumber = 0;
 	    
 	    // Makes an 8 x 8 grid
 	    board.setLayout(new GridLayout(8, 8));
@@ -32,6 +33,8 @@ public class chess extends JFrame implements ActionListener
 	
 		// Creates an array for the tiles
 		tile[][] tiles = new tile[8][8];
+		
+	    player player1 = new player(tiles);
 		
 		// Creates chess board, with proper colors
 		for(int i = 0; i < 8; i++)
@@ -67,8 +70,8 @@ public class chess extends JFrame implements ActionListener
 					@Override
 					public void mousePressed(MouseEvent e)
 					{
-						// TODO Auto-generated method stub
-						if (tile.getBackground() == Color.RED)
+					// TODO Auto-generated method stub
+					if (tile.getBackground() == Color.RED)
 						{
 							player.capturePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
@@ -85,8 +88,8 @@ public class chess extends JFrame implements ActionListener
 						{
 							player.movePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
-						}						
-					}
+						}					
+					}		
 
 					@Override
 					public void mouseReleased(MouseEvent e)
@@ -119,7 +122,7 @@ public class chess extends JFrame implements ActionListener
         "\u265F " + // black pawn
         
         */
-		
+	    
 		// White's pieces
 		
 		// White pawns
@@ -210,7 +213,7 @@ public class chess extends JFrame implements ActionListener
 	    tiles[7][2].addPiece(wb1);
 	    tiles[7][3].addPiece(wq);
 	    tiles[7][4].addPiece(wk);
-	    tiles[7][5].addPiece(wb2);
+	    tiles[7][5].addPiece(wb2);	    
 	    tiles[7][6].addPiece(wn2);
 	    tiles[7][7].addPiece(wr2);
 	    
@@ -234,7 +237,6 @@ public class chess extends JFrame implements ActionListener
 	
 	    // Creates board
 	    add(board);
-	    player user = new player(tiles);
 	    
 	}
 
