@@ -1,8 +1,23 @@
+/****************************************************************************
+ *
+ * Created by: James Lee
+ * Created on: Dec 2018
+ * Created for: ICS4U
+ * This is the tile class
+ * 
+ * This class makes up the board
+ *
+ ****************************************************************************/
+
 import javax.swing.*;
 
 public class tile extends JButton
 {
-	// Change variables into preferably private
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
     private int xPosition;
     private int yPosition;
     private piece p;
@@ -26,31 +41,31 @@ public class tile extends JButton
     	return yPosition;
     }
     
+    // Adds piece onto tile
     public void addPiece(piece p)
     {
     	this.p = p;
     	this.setText(p.name());
     }
     
+    // Returns piece occupying tile
     public piece getPiece()
     {
     	return p;
     }
     
+    // Removes piece occupying tile
     public void removePiece()
     {
     	this.p = null;
     	this.setText("");
     }
     
+    // Checks if tile is empty
     public void checkTile(piece p, int x, int y)
     {
         if(!p.name().equals(""))
         {
-        	player.isValidMove(p, x, y);
-        }
-    }
-}
         	player.isValidMove(p, x, y);
         }
     }
