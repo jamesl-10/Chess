@@ -1,11 +1,24 @@
+/****************************************************************************
+ *
+ * Created by: James Lee
+ * Created on: Dec 2018
+ * Created for: ICS4U
+ * Chess program : plays chess with 2 players
+ *
+ *
+ * Still needs : 
+ * 
+ * - Check and checkmate
+ * - En passant
+ * 
+ ****************************************************************************/
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
-
 import javax.swing.*;
 
-// Make all panels the same array, instead of two separate for each color
 public class chess extends JFrame implements ActionListener
 {
 	/**
@@ -14,12 +27,13 @@ public class chess extends JFrame implements ActionListener
 	private static final long serialVersionUID = 1L;
 	private static int turnNumber = 0;
 	
+	// Creates gui frame
 	public static void main(String[] args) 
 	{	
 	    chess frame = new chess();
 	    
 	    frame.setTitle("Chess");
-	    frame.setSize(900, 900);
+	    frame.setSize(1100, 1100);
 	    frame.setLocationRelativeTo(null);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setVisible(true);	    
@@ -29,30 +43,30 @@ public class chess extends JFrame implements ActionListener
 	public chess() 
 	{	
 		// Creates a panel for the board
-	    board board = new board();
+	    JPanel board = new JPanel();
 	    
 	    // Makes an 8 x 8 grid
 	    board.setLayout(new GridLayout(8, 8));
-	    board.setSize(800, 800);
+	    board.setSize(1100, 1100);
 	
 		// Creates an array for the tiles
 		tile[][] tiles = new tile[8][8];
 		
-	    player player1 = new player(tiles);
+		// Creates player
+	    player player = new player(tiles);
 		
-		// Creates chess board, with proper colors
+		// Adds appropriate number of tiles for the chess board (64 total)
 		for(int i = 0; i < 8; i++)
 		{
 			for(int j = 0; j < 8; j++)
 			{
 				tile tile = new tile(i, j);
-				
-				tile.setFont(new Font("Arial Unicode MS", Font.PLAIN, 50));
-				
+				tile.setFont(new Font("Arial Unicode MS", Font.PLAIN, 90));
 				tiles[i][j] = tile;
 				
+				// Adds mouse event when pressed
 				tiles[i][j].addMouseListener(new MouseListener()
-				{				
+				{					
 				    @Override
 				    public void mouseClicked(MouseEvent e)
 				    {
@@ -74,15 +88,19 @@ public class chess extends JFrame implements ActionListener
 					@Override
 					public void mousePressed(MouseEvent e)
 					{
-					// TODO Auto-generated method stub
-					if (tile.getBackground() == Color.RED)
+						// TODO Auto-generated method stub
+						
+						// Captures enemy pieces
+						if (tile.getBackground() == Color.RED)
 						{
 							player.capturePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
 							turnNumber++;
 						}
 						
-					else if (tile.getPiece() != null && turnNumber%2 == 0 && 
+						// Selects a piece to move
+						// Also implements turns (whites turn, blacks turn)
+						else if (tile.getPiece() != null && turnNumber%2 == 0 && 
 							((tile) e.getSource()).getPiece().color().equals("White") || 
 							tile.getPiece() != null &&
 							turnNumber%2 == 1 && ((tile) e.getSource()).getPiece().color().equals("Black"))
@@ -92,12 +110,26 @@ public class chess extends JFrame implements ActionListener
 							player.setCurrentPiece(((tile) e.getSource()).getPiece());
 						}
 						
-					else if (tile.getText().equals("\u25E6"))
+						// Moves piece that was selected above
+						else if (tile.getText().equals("\u25E6"))
 						{
 							player.movePiece(tile.getXPos(), tile.getYPos());
 							resetBoard(tiles);
 							turnNumber++;
-						}					
+						}
+						
+						// Castles
+						else if (tile.getText().equals("\u21c6"))
+						{
+							player.castleKing(tile.getXPos(), tile.getYPos());
+							resetBoard(tiles);
+							turnNumber++;
+						}
+						
+						else
+						{
+							resetBoard(tiles);
+						}
 					}		
 
 					@Override
@@ -109,10 +141,14 @@ public class chess extends JFrame implements ActionListener
 
 				});
 				
+				// Creates the board
 				board.add(tiles[i][j]);
 			}
 		}
 		
+		// This function resets the board to its original state
+		// Colors are reset, and all text is removed
+		// Note that pieces are exempt from this
 		resetBoard(tiles);
 		
 	    /*
@@ -163,6 +199,7 @@ public class chess extends JFrame implements ActionListener
 	    piece wr2 = new rook("\u2656", "White");
 	    
 	    // Black pieces
+	    
 	    // Black pawns
 		piece bp1 = new pawn("\u265F", "Black");
 	    piece bp2 = new pawn("\u265F", "Black");
@@ -192,6 +229,7 @@ public class chess extends JFrame implements ActionListener
 	    piece br2 = new rook("\u265C", "Black");
 
 	    
+	    // Map of all the coordinates on the board
 	    
 	    // tiles[letter][number]
 	    /*
@@ -256,13 +294,19 @@ public class chess extends JFrame implements ActionListener
 		
 	}
 	
+	// Function that restores board to original state
+	// Note that pieces are exempt from this
 	public void resetBoard(tile[][] tiles)
 	{
+		// Colors of board
+		Color BROWN = new Color(222,184,135);
+		Color WHITE = new Color(255,248,250);
+		
 		for (int i = 0; i < tiles[0].length; i++)
 		{
 			for (int j = 0; j < tiles.length; j++)
 			{
-				if (tiles[i][j].getText().equals("\u25E6"))
+				if (tiles[i][j].getText().equals("\u25E6") || tiles[i][j].getText().equals("\u21c6"))
 				{
 					tiles[i][j].setText("");
 				}
@@ -271,11 +315,11 @@ public class chess extends JFrame implements ActionListener
 				{
 					if(j % 2 == 0)
 					{
-					    tiles[i][j].setBackground(Color.GREEN);
+					    tiles[i][j].setBackground(BROWN);
 					}
 					else
 					{
-					    tiles[i][j].setBackground(Color.WHITE);
+					    tiles[i][j].setBackground(WHITE);
 					}
 
 				}
@@ -283,11 +327,11 @@ public class chess extends JFrame implements ActionListener
 				{
 					if (j % 2 == 0)
 					{
-						tiles[i][j].setBackground(Color.WHITE);
+						tiles[i][j].setBackground(WHITE);
 					}
 					else
 					{
-						tiles[i][j].setBackground(Color.GREEN);
+						tiles[i][j].setBackground(BROWN);
 					}
 				}
 			}
