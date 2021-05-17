@@ -1,3 +1,3 @@
 # Chess
-Chess done in Java
+Chess done in Java.
 Forked from my school account
